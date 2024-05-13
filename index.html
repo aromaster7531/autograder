@@ -22,6 +22,28 @@
         <!-- Results will be displayed here -->
     </div>
 
-    <!-- Add any JavaScript code here -->
+    <script>
+        document.getElementById("codeForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const pythonCode = document.getElementById("pythonCode").value;
+
+            // Send Python code to AWS Lambda function for processing
+            fetch("https://z1zf17kw2e.execute-api.us-west-1.amazonaws.com/default/knightp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ code: pythonCode })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update results div with grading results
+                document.getElementById("results").innerHTML = `<p>${data.result}</p>`;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+    </script>
 </body>
 </html>
