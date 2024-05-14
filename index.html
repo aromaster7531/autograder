@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Python Code Grader</title>
-    <!-- Add any CSS styles here -->
+
 </head>
 <body>
     <h1>Welcome to the Python Code Grader</h1>
 
-    <!-- Python Code Input Form -->
+
     <h2>Submit Your Python Code</h2>
     <form id="codeForm" enctype="multipart/form-data">
         <label for="pythonFile">Upload your Python file:</label><br>
@@ -17,10 +17,8 @@
         <button type="submit">Submit Code</button>
     </form>
 
-    <!-- Display Results -->
-    <div id="results">
-        <!-- Results will be displayed here -->
-    </div>
+  
+    <div id="results"> </div>
 
     <script>
         document.getElementById("codeForm").addEventListener("submit", function(event) {
@@ -29,15 +27,20 @@
             const file = document.getElementById("pythonFile").files[0];
             formData.append("pythonFile", file);
 
-            // Send Python file to new endpoint for processing
+
             fetch(" https://3a88dz9uae.execute-api.us-west-1.amazonaws.com/dev/knightCalculation", {
                 method: "POST",
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
-                // Update results div with grading results
-                document.getElementById("results").innerHTML = `<p>${data.result}</p>`;
+
+                const resultsDiv = document.getElementById("results");
+                if (data.status === 'All tests passed') {
+                    resultsDiv.innerHTML = "<p>All tests passed!</p>";
+                } else {
+                    resultsDiv.innerHTML = `<p>Test failed: ${data.error}</p>`;
+                }
             })
             .catch(error => {
                 console.error("Error:", error);
