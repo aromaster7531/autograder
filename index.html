@@ -82,10 +82,15 @@
                 let output = data.output || '';
                 let passedTests = data.passed_tests || '';
                 let status = data.status || '';
+                let testResults = '';
+
+                for (const [key, value] of Object.entries(output)) {
+                    testResults += `<p>${key}: ${value.result}, Time: ${value.time.toFixed(2)}ms</p>`;
+                }
 
                 let resultsHTML = `
-                    <p>Output:</p>
-                    <pre>${output}</pre>
+                    <p>Test Results:</p>
+                    ${testResults}
                     <p>Passed Tests: ${passedTests}</p>
                     <p>Status: ${status}</p>
                 `;
