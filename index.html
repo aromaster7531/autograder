@@ -72,13 +72,15 @@
             const file = document.getElementById("pythonFile").files[0];
             formData.append("pythonFile", file);
 
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = "<p>Building source...</p>";
+
             fetch("https://3a88dz9uae.execute-api.us-west-1.amazonaws.com/dev/knightCalculation", {
                 method: "POST",
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
-                const resultsDiv = document.getElementById("results");
                 let output = data.output || '';
                 let passedTests = data.passed_tests || '';
                 let status = data.status || '';
@@ -89,6 +91,9 @@
                 }
 
                 let resultsHTML = `
+                    <p>Test ${file.name}</p>
+                    <p>Building source...</p>
+                    <p>Executing 8 tests...</p>
                     <p>Test Results:</p>
                     ${testResults}
                     <p>Passed Tests: ${passedTests}</p>
