@@ -79,11 +79,18 @@
             .then(response => response.json())
             .then(data => {
                 const resultsDiv = document.getElementById("results");
-                if (data.status === 'All tests passed') {
-                    resultsDiv.innerHTML = "<p>All tests passed!</p>";
-                } else {
-                    resultsDiv.innerHTML = `<p>Test failed: ${data.error}</p>`;
-                }
+                let output = data.output || '';
+                let passedTests = data.passed_tests || '';
+                let status = data.status || '';
+
+                let resultsHTML = `
+                    <p>Output:</p>
+                    <pre>${output}</pre>
+                    <p>Passed Tests: ${passedTests}</p>
+                    <p>Status: ${status}</p>
+                `;
+
+                resultsDiv.innerHTML = resultsHTML;
             })
             .catch(error => {
                 console.error("Error:", error);
