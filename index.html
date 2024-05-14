@@ -25,7 +25,7 @@
             display: block;
             margin-bottom: 5px;
         }
-        input[type="file"] {
+        input[type="file"], input[type="text"] {
             margin-bottom: 10px;
         }
         button {
@@ -53,8 +53,10 @@
 
         <h2>Submit Your Python Code</h2>
         <form id="codeForm" enctype="multipart/form-data">
+            <label for="studentID">Enter your Student ID:</label>
+            <input type="text" id="studentID" name="studentID" required><br>
             <label for="pythonFile">Upload your Python file:</label>
-            <input type="file" id="pythonFile" name="pythonFile" accept=".py" required>
+            <input type="file" id="pythonFile" name="pythonFile" accept=".py" required><br>
             <button type="submit">Submit Code</button>
         </form>
 
@@ -65,6 +67,8 @@
         document.getElementById("codeForm").addEventListener("submit", function(event) {
             event.preventDefault();
             const formData = new FormData();
+            const studentID = document.getElementById("studentID").value;
+            formData.append("studentID", studentID);
             const file = document.getElementById("pythonFile").files[0];
             formData.append("pythonFile", file);
 
