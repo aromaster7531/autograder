@@ -11,9 +11,9 @@
 
     <!-- Python Code Input Form -->
     <h2>Submit Your Python Code</h2>
-    <form id="codeForm">
-        <label for="pythonCode">Enter your Python code:</label><br>
-        <textarea id="pythonCode" name="pythonCode" rows="10" cols="50" required></textarea><br>
+    <form id="codeForm" enctype="multipart/form-data">
+        <label for="pythonFile">Upload your Python file:</label><br>
+        <input type="file" id="pythonFile" name="pythonFile" accept=".py" required><br>
         <button type="submit">Submit Code</button>
     </form>
 
@@ -25,15 +25,14 @@
     <script>
         document.getElementById("codeForm").addEventListener("submit", function(event) {
             event.preventDefault();
-            const pythonCode = document.getElementById("pythonCode").value;
+            const formData = new FormData();
+            const file = document.getElementById("pythonFile").files[0];
+            formData.append("pythonFile", file);
 
-            // Send Python code to AWS Lambda function for processing
-            fetch("https://z1zf17kw2e.execute-api.us-west-1.amazonaws.com/default/knightp", {
+            // Send Python file to new endpoint for processing
+            fetch(" https://3a88dz9uae.execute-api.us-west-1.amazonaws.com/dev/knightCalculation", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ code: pythonCode })
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
